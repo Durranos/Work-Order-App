@@ -4,8 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterViewFlipper;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView dateScheduledLabel;
     private EditText dateScheduledText;
 
-    private AdapterViewFlipper viewFlipper;
-
+    private Button nextBtn;
+    private Button backBtn;
     private Button submitBtn;
     private String subject;
     private String body;
@@ -40,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initialize();
         start();
     }
@@ -61,13 +58,29 @@ public class MainActivity extends AppCompatActivity {
         dateScheduledLabel = (TextView) findViewById(R.id.dateScheduledLabel);
         dateScheduledText      = (EditText) findViewById(R.id.dateScheduledText);
 
-        viewFlipper = (AdapterViewFlipper) findViewById(R.id.viewFlipper);
-
-
-        submitBtn = (Button) findViewById(R.id.submitButton);
+        nextBtn = (Button) findViewById(R.id.nextButton);
+        submitBtn = (Button) findViewById(R.id.submitBtn);
     }
 
     private void start(){
+
+        nextBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                setContentView(R.layout.activity_main_2);
+
+                backBtn = (Button )findViewById(R.id.backBtn);
+                backBtn.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        setContentView(R.layout.activity_main);
+                    }
+                });
+            }
+        });
+
+
+        /*
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        */
     }
 
     @Override
