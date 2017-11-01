@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">Work Order</string>
+    <string name="app_name">JBWA Work Order</string>
+    <string name="new_work_order">Submit A Work Order</string>
+    <string name="client_name">Client Name </string>
+    <string name="next_button">Next </string>
+    <string name="project_name">Project Name </string>
+    <string name="change_order">Change Order # </string>
+    <string name="requested_by">Requested By </string>
+    <string name="sub_name">Subcontractor Name </string>
+    <string name="date_requested">Date Requested </string>
+    <string name="date_scheduled">Date Scheduled </string>
+    <string name="submit_button">Submit</string>
+    <string name="back_button">Back</string>
 </resources>
