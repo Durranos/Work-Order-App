@@ -9,11 +9,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
+
 /**
  * Created by David on 11/1/2017.
  */
 
 public class WorkOrder extends AppCompatActivity {
+
+    public static final String EXTRA_MESSAGE = "com.workorder.kearney.workorder.MESSAGE";
 
     private TextView clientNameLabel;
     private EditText clientNameText;
@@ -31,20 +35,25 @@ public class WorkOrder extends AppCompatActivity {
     private EditText dateScheduledText;
 
     private Button nextBtn;
-    private String subject;
     private String body;
-    private String emailSend;
-    private String emailReceive;
-    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_order);
 
-        Intent intent = getIntent();
-
         initialize();
+
+        if (savedInstanceState != null) {
+            clientNameText.setText(savedInstanceState.getString("clientName"));
+            projectNameText.setText(savedInstanceState.getString("projectName"));
+            changeOrderText.setText(savedInstanceState.getString("changeOrder"));
+            requestedByText.setText(savedInstanceState.getString("requestedBy"));
+            subcontractorNameText.setText(savedInstanceState.getString("subcontractorName"));
+            dateRequestedText.setText(savedInstanceState.getString("dateRequested"));
+            dateScheduledText.setText(savedInstanceState.getString("dateScheduled"));
+        }
+
         start();
     }
 
@@ -72,8 +81,6 @@ public class WorkOrder extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                // Email Subject
-                subject = "Work Order";
 
                 // Email Body
                 body = clientNameLabel.getText().toString() + ": ";
@@ -91,30 +98,45 @@ public class WorkOrder extends AppCompatActivity {
                 body += dateScheduledLabel.getText().toString() + ": ";
                 body += dateScheduledText.getText().toString() + System.getProperty("line.separator");
 
+                // Start the next activity for the form
+                Intent intent = new Intent(v.getContext(), WorkOrder2.class);
+                intent.putExtra(EXTRA_MESSAGE, body);
+                startActivity(intent);
 
-
-                // Email Recipient
-                emailSend = "jbwa.workorder@gmail.com";
-
-                // Email Sender
-                emailReceive = "david.kearney@webbengr.com";
-                password = "jbwaworkorder";
-
-                // Debugging Purposes
-                Log.d("Subject: ", subject);
-                Log.d("Body: ", body);
-                Log.d("Email Send: ", emailSend);
-                Log.d("Email Receive: ", emailReceive);
-                Log.d("Password: ", password);
-
-                try {
-                    GMailSender sender = new GMailSender(emailSend, password);
-                    sender.sendMail(subject, body, emailSend, emailReceive);
-                } catch (Exception e){
-                    Log.e("SendMail External", e.getMessage(), e);
-                }
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        savedInstanceState.putString("clientName", clientNameText.getText().toString());
+        savedInstanceState.putString("projectName", projectNameText.getText().toString());
+        savedInstanceState.putString("changeOrder", changeOrderText.getText().toString());
+        savedInstanceState.putString("requestedBy", requestedByText.getText().toString());
+        savedInstanceState.putString("subcontractorName", subcontractorNameText.getText().toString());
+        savedInstanceState.putString("dateRequested", dateRequestedText.getText().toString());
+        savedInstanceState.putString("dateScheduled", dateScheduledText.getText().toString());
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+
+        clientNameText.setText(savedInstanceState.getString("clientName"));
+        projectNameText.setText(savedInstanceState.getString("projectName"));
+        changeOrderText.setText(savedInstanceState.getString("changeOrder"));
+        requestedByText.setText(savedInstanceState.getString("requestedBy"));
+        subcontractorNameText.setText(savedInstanceState.getString("subcontractorName"));
+        dateRequestedText.setText(savedInstanceState.getString("dateRequested"));
+        dateScheduledText.setText(savedInstanceState.getString("dateScheduled"));
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+
     }
 
     @Override
@@ -125,6 +147,17 @@ public class WorkOrder extends AppCompatActivity {
     @Override
     protected void onRestart(){
         super.onRestart();
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
     }
 
     @Override

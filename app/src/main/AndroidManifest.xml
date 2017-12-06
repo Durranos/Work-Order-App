@@ -24,6 +24,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <activity android:name=".WorkOrder2"
+                 android:parentActivityName=".WorkOrder">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WorkOrder" />
+        </activity>
     </application>
 
 </manifest>
